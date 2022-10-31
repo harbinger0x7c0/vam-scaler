@@ -8,8 +8,8 @@ drive? Ask your doctor if VAM Scaler is right for you.
 ## What it does
 This is a very early version, so the functionality may well improve, but for now
 it's pretty basic. It just unpacks any var files you give it, looks for any jpg
-or png files inside, and if they are 4k it scales them down to 1k. Then it packs
-everything back up into a new var with the old var's name.
+or png files inside, and if they are larger than 1k it scales them down to
+1k. Then it packs everything back up into a new var with the old var's name.
 
 In case you didn't notice, that means the original var will be lost. Back it up
 if you don't want that to happen.

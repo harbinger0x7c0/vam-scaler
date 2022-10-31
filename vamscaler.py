@@ -4,9 +4,9 @@ from os import chdir
 from plumbum.cmd import file, ls, magick, mkdir, rm, unzip, zip as archive
 
 def process_var(varname):
-    print("Preparing to unzip.")
+    print(f"Preparing to unzip {varname}.")
     mkdir['-p', 'unzipped']()
-    print("Unzipping...")
+    print("Unzipping...", end=' ')
     unzip[varname, '-d', 'unzipped']()
     print("Done.")
     rm[varname]()
@@ -30,10 +30,13 @@ def scale_directory(directory_name):
         if 'directory' in file[filename]():
             print(f"Descending into {filename}...")
             scale_directory(filename)
-        elif ('png' in entry or 'jpg' in entry) and '4096x4096' in magick['identify', filename]():
-            print(f"Scaling {filename}... ",)
-            magick[filename, '-resize', '1024x1024', filename]()
-            print("Done.")
+        elif ('png' in entry or 'jpg' in entry):
+            spaces_in_name = filename.count(' ')
+            dimension = int(magick['identify', filename]().split()[spaces_in_name + 2].split('x')[0])
+            if dimension > 1024:
+                print(f"Scaling {filename}... ", end=' ')
+                magick[filename, '-resize', '1024x1024', filename]()
+                print("Done.")
         else:
             print(f"Nothing to do for {filename}.")
 
